@@ -280,11 +280,7 @@ protected:
 	}
 
 protected:
-#ifdef SPR_PLUGIN
-	CSpinLock									m_mtxPacketPool;
-#else
 	CMyMutex									m_mtxPacketPool;
-#endif
 	list< shared_ptr<CRtpPacket> >				m_listPacketPool;
 };
 

@@ -1018,20 +1018,6 @@ int Run(LPTSTR lpstrCmdLine = NULL)
 			dlgMain.PostMessage(WM_COMMAND, IDC_CHANGENAME);
 		if (bWithChangeExtended)
 			dlgMain.PostMessage(WM_COMMAND, IDC_EXTENDED_OPTIONS);
-#ifdef SPR_PLUGIN
-		if (lpstrCmdLine)
-		{
-			WTL::CString strCmdLine(lpstrCmdLine);
-
-			strCmdLine.TrimLeft(_T(" \t\""));
-			strCmdLine.TrimRight(_T(" \t\""));
-
-			if (FileExists(strCmdLine))
-			{
-				dlgMain.PostMessage(WM_OPEN_PROJECT, 0, (LPARAM)new WTL::CString((PCWSTR)strCmdLine));
-			}
-		}
-#endif
 		int nRet = theLoop.Run();
 
 		_Module.RemoveMessageLoop();

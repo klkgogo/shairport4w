@@ -208,11 +208,6 @@ BEGIN
     LTEXT           "",IDC_STATIC_VERSION,133,52,92,8
     CTEXT           "(c) Copyright 2013\nFrank Friemel, Philippe Dubois\nDaniel Latimer\n\nShairport4w is based on Shairport by James Laird",IDC_STATIC,42,67,169,46
     LTEXT           "http://www.lightweightdream.com/sp4w/shairport4w/?lang=en",IDC_STATIC_SHAIR_LNK,26,122,200,8
-    ICON            IDI_SPR,IDC_STATIC_SPR_ICON,115,151,20,20
-    LTEXT           "ShairportRecorder",IDC_STATIC_SPR1,63,177,60,8,0,WS_EX_RIGHT
-    LTEXT           "",IDC_STATIC_RECORDER_VERSION,133,177,92,8
-    CTEXT           "(c) Copyright 2014 Frank Friemel",IDC_STATIC_SPR2,41,192,169,24
-    LTEXT           "ShairportRecorder supports Icons8",IDC_STATIC_ICONS8_LNK,68,231,110,8
     DEFPUSHBUTTON   "Close",IDOK,102,255,50,14
 END
 
@@ -505,11 +500,6 @@ BEGIN
     LTEXT           "",IDC_STATIC_VERSION,133,52,92,8
     CTEXT           "(c) Copyright 2013\nFrank Friemel, Philippe Dubois\nDaniel Latimer\n\nShairport4w basiert auf Shairport von James Laird",IDC_STATIC,42,67,169,46
     LTEXT           "http://www.lightweightdream.com/sp4w/shairport4w/?lang=de",IDC_STATIC_SHAIR_LNK,25,122,203,8
-    ICON            IDI_SPR,IDC_STATIC_SPR_ICON,115,151,20,20
-    LTEXT           "ShairportRecorder",IDC_STATIC_SPR1,63,177,60,8,0,WS_EX_RIGHT
-    LTEXT           "",IDC_STATIC_RECORDER_VERSION,133,177,92,8
-    CTEXT           "(c) Copyright 2014 Frank Friemel",IDC_STATIC_SPR2,41,192,169,24
-    LTEXT           "ShairportRecorder unterstützt Icons8",IDC_STATIC_ICONS8_LNK,68,231,116,8
     DEFPUSHBUTTON   "Schließen",IDOK,102,255,50,14
 END
 

@@ -47,12 +47,6 @@ LRESULT CAboutDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPara
 
 	if (m_strRecorderVersion.IsEmpty())
 	{
-		GetDlgItem(IDC_STATIC_SPR1).ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_STATIC_SPR2).ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_STATIC_RECORDER_VERSION).ShowWindow(SW_HIDE);
-		GetDlgItem(IDC_STATIC_SPR_ICON).ShowWindow(SW_HIDE);
-		m_ctlIcons8.ShowWindow(SW_HIDE);
-
 		CRect rect;
 
 		GetDlgItem(IDC_STATIC_FRAME).GetClientRect(rect);

@@ -245,9 +245,6 @@ protected:
 	CMyMutex														m_mtxQueryConnectedHost;
 	list<ci_string>													m_listQueryConnectedHost;
 
-#ifdef SPR_PLUGIN_INIT
-	CExitThread														m_ExitThread;
-#endif
 	CBitmap															m_bmUpdate;
 
 	CComVariant														m_strSetupVersion;
@@ -326,7 +323,6 @@ public:
 		COMMAND_ID_HANDLER_EX(IDC_MM_MUTE_ON,	OnMuteOnOff)
 		COMMAND_ID_HANDLER_EX(IDC_MM_MUTE_OFF,	OnMuteOnOff)
 		COMMAND_ID_HANDLER_EX(ID_REFRESH,		OnRefresh)
-		COMMAND_ID_HANDLER_EX(ID_MENU_ENTRY_ID_ONLINE_UPDATE,		OnOnlineUpdate)
 		MSG_WM_APPCOMMAND(OnAppCommand)
 		MESSAGE_HANDLER(WM_POWERBROADCAST, OnPowerBroadcast)
 #ifdef _WITH_PROXY
@@ -391,7 +387,6 @@ public:
 
 	void OnRefresh(UINT uMsg = 0, int nID = 0, HWND hWnd = NULL);
 
-	void OnOnlineUpdate(UINT uMsg = 0, int nID = 0, HWND hWnd = NULL);
 
 	void CloseDialog(int nVal);
 

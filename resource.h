@@ -68,7 +68,6 @@
 #define IDB_ART_SHADOW                  247
 #define IDB_MUTE                        248
 #define IDB_MUTE_PRESSED                249
-#define IDI_SPR                         251
 #define IDB_UPDATE_16                   252
 #define IDC_APNAME                      1000
 #define IDC_CHANGENAME                  1001
@@ -130,9 +129,6 @@
 #define IDC_MM_MUTE_OFF                 1038
 #define IDC_CONTROL_PANEL3              1038
 #define IDC_STATIC_STATUS               1039
-#define IDC_STATIC_SPR_ICON             1040
-#define IDC_STATIC_SPR1                 1041
-#define IDC_STATIC_SPR2                 1042
 #define IDC_STATIC_ICONS8_LNK           1043
 #define IDC_STATIC_FRAME                1044
 #define IDC_CHECK4                      1046
