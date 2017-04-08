@@ -335,7 +335,6 @@ public:
 		MSG_WM_NCHITTEST(OnNcHitTest)
 		CHAIN_MSG_MAP(CUpdateUI<CMainDlg>)
 		CHAIN_MSG_MAP(CTrayIconImpl<CMainDlg>) 
-		CHAIN_MSG_MAP(CShairportRecorder)
 		REFLECT_NOTIFICATIONS()
 	ALT_MSG_MAP(1)
 		MSG_WM_PAINT(OnInfoBmpPaint)
@@ -350,24 +349,6 @@ public:
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnNcHitTest(CPoint point)
 	{
-		if (!CShairportRecorder::IsLoaded())
-		{
-			LRESULT lResult = ::DefWindowProc(m_hWnd, m_pCurrentMsg->message, m_pCurrentMsg->wParam, m_pCurrentMsg->lParam);
-
-			switch (lResult)
-			{
-				case HTLEFT:
-				case HTRIGHT:
-				case HTTOP:
-				case HTTOPLEFT:
-				case HTTOPRIGHT:
-				case HTBOTTOM:
-				case HTBOTTOMLEFT:
-				case HTBOTTOMRIGHT:
-					return HTCLIENT;
-			}
-			return lResult;
-		}
 		SetMsgHandled(FALSE);
 		return FALSE;
 	}

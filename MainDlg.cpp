@@ -314,23 +314,11 @@ void CMainDlg::ReadConfig()
 	if (GetValueFromRegistry(HKEY_LOCAL_MACHINE, "NoMetaInfo", _strNoMetaInfo))
 		m_bNoMetaInfo = _strNoMetaInfo != "no" ? TRUE : FALSE;	
 	
-	if (m_bNoMetaInfo)
-	{
-		// we need this feature for recording
-		if (CShairportRecorder::IsLoaded())
-			m_bNoMetaInfo = FALSE;
-	}
 	string _strNoMediaControl;
 
 	if (GetValueFromRegistry(HKEY_LOCAL_MACHINE, "NoMediaControl", _strNoMediaControl))
 		m_bNoMediaControl = _strNoMediaControl != "no" ? TRUE : FALSE;	
 
-	if (m_bNoMediaControl)
-	{
-		// we need this feature for recording
-		if (CShairportRecorder::IsLoaded())
-			m_bNoMediaControl = FALSE;
-	}
 	string _strSoundcardId;
 
 	if (GetValueFromRegistry(HKEY_LOCAL_MACHINE, "SoundcardId", _strSoundcardId))
@@ -357,12 +345,6 @@ void CMainDlg::ReadConfig()
 	if (GetValueFromRegistry(HKEY_CURRENT_USER, "InfoPanel", _strInfoPanel))
 		m_bInfoPanel = _strInfoPanel != "no" ? TRUE : FALSE;
 
-	if (!m_bInfoPanel)
-	{
-		// we need this feature for recording
-		if (CShairportRecorder::IsLoaded())
-			m_bInfoPanel = TRUE;
-	}
 	string _strPin;
 
 	if (GetValueFromRegistry(HKEY_CURRENT_USER, "Pin", _strPin))
@@ -711,8 +693,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 	m_ctlInfoBmp.MoveWindow(rect, FALSE);
 	 
-	GetDlgItem(IDC_INFOPANEL).EnableWindow(!CShairportRecorder::IsLoaded() && (m_bNoMetaInfo ? FALSE : TRUE));
-
 	m_ctlPlay.Set(IDB_PLAY, IDB_PLAY_PRESSED, IDB_PLAY_DISABLED);
 	m_ctlPause.Set(IDB_PAUSE, IDB_PAUSE_PRESSED, IDB_PAUSE_DISABLED);
 	m_ctlFFw.Set(IDB_FFW, IDB_FFW_PRESSED, IDB_FFW_DISABLED);
@@ -754,19 +734,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 			Log("Early Start of Redirection Process \"%s\" failed!", T2CA(m_strSoundRedirection));
 		}
 	}
-	if (CShairportRecorder::IsLoaded())
-	{
-		REPLACE_CONTROL_HORZ(m_ctlPlay		, -20);
-		REPLACE_CONTROL_HORZ(m_ctlPause		, -20);
-		REPLACE_CONTROL_HORZ(m_ctlFFw		, -20);
-		REPLACE_CONTROL_HORZ(m_ctlRew		, -20);
-		REPLACE_CONTROL_HORZ(m_ctlSkipNext	, -20);
-		REPLACE_CONTROL_HORZ(m_ctlSkipPrev	, -20);
-		REPLACE_CONTROL_HORZ(m_ctlMute		, -20);
-
-		bHandled = FALSE;
-		SetMsgHandled(FALSE);
-	}
 #ifdef SPR_PLUGIN_INIT
 #ifdef _DEBUG
 	m_strSetupVersion = L"1.0.0.1";
@@ -785,11 +752,6 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	m_threadShow.Stop();
 	
-	if (CShairportRecorder::IsLoaded())
-	{
-		bHandled = FALSE;
-		SetMsgHandled(FALSE);
-	}
 	// unregister message filtering and idle updates
 	CMessageLoop* pLoop = _Module.GetMessageLoop();
 	ATLASSERT(pLoop != NULL);
@@ -859,11 +821,8 @@ LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 
 void CMainDlg::CloseDialog(int nVal)
 {
-	if (CShairportRecorder::IsOkToClose(m_hWnd))
-	{
-		DestroyWindow();
-		::PostQuitMessage(nVal);
-	}
+   DestroyWindow();
+   ::PostQuitMessage(nVal);
 }
 
 void CMainDlg::OnClickedSetApName(UINT, int, HWND)
@@ -1032,12 +991,6 @@ void CMainDlg::OnClickedExtendedOptions(UINT, int, HWND)
 		m_bRedirKeepAlive		= dlg.getRedirKeepAlive();
 		m_bRedirStartEarly		= dlg.getRedirStartEarly();
 
-		if (m_bNoMediaControl)
-		{
-			// we need this feature for recording
-			if (CShairportRecorder::IsLoaded())
-				m_bNoMediaControl = FALSE;
-		}
 		CHairTunes::SetStartFill(dlg.getPos());
 
 		WriteConfig();
@@ -1639,7 +1592,7 @@ void CMainDlg::OnActivate(UINT nState, BOOL bMinimized, CWindow wndOther)
 
 BOOL CMainDlg::OnAppCommand(HWND, short cmd, WORD uDevice, int dwKeys)
 {
-	if (HasMultimediaControl() && (!CShairportRecorder::IsLoaded() || (g_bMute & MUTE_FROM_PLUGIN) == 0))
+	if (HasMultimediaControl() && ((g_bMute & MUTE_FROM_PLUGIN) == 0))
 	{
 		switch(cmd)
 		{

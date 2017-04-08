@@ -201,11 +201,6 @@ LRESULT CExtOptsDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lPa
 	m_ctlRedirKeepAlive.EnableWindow(bIsSoundRedirection);
 	m_ctlRedirStartEarly.EnableWindow(bIsSoundRedirection && m_bRedirKeepAlive);
 
-	if (CShairportRecorder::IsLoaded())
-	{
-		GetDlgItem(IDC_NO_NEDIA_CONTROLS).EnableWindow(FALSE);
-		GetDlgItem(IDC_NO_META_INFO).EnableWindow(FALSE);
-	}
 	return TRUE;
 }
 

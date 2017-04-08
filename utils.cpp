@@ -1266,8 +1266,3 @@ void ErrorMsg(HWND hwnd, PCTSTR lpszFunction, DWORD dwErr)
 	LocalFree(lpMsgBuf);
 	LocalFree(lpDisplayBuf);
 }
-
-
-#ifdef _RECORD_LOG
-#include "RecordLog.cpp"
-#endif

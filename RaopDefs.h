@@ -365,12 +365,6 @@ public:
 #endif
 			if (p->m_nLen > 0)
 			{
-#ifdef _RECORD_LOG
-				shared_ptr<CRecordLog> pRecItem = CRecordLog::NewItem(m_strReceiveFromName.c_str());
-			
-				pRecItem->m_rawData.Write(p->m_Data, p->m_nLen, NULL);
-				CRecordLog::Store(pRecItem);
-#endif
 				m_pRequestHandler->OnRequest(this, p);
 			}
 			else
@@ -380,12 +374,6 @@ public:
 	}
 	inline BOOL SendTo(const void* pBuf, int nLen, USHORT nPortHostOrder)
 	{
-#ifdef _RECORD_LOG
-		shared_ptr<CRecordLog> pRecItem = CRecordLog::NewItem(m_strSendToName.c_str());
-			
-		pRecItem->m_rawData.Write(pBuf, nLen, NULL);
-		CRecordLog::Store(pRecItem);
-#endif
 		m_mtx_sa.Lock();
 		m_saPeer.sin6_port = htons(nPortHostOrder);
 		BOOL bResult = CNetworkServer::SendTo(pBuf, nLen, (const sockaddr*)&m_saPeer, m_sa_len);

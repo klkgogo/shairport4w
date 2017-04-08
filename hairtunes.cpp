@@ -979,13 +979,6 @@ void CHairTunes::OnEvent()
 
 			if (packet->m_nLen >= 4 && packet->m_nLen <= FRAME_BYTES)
 			{
-				if (ShRecData != NULL)
-				{
-					shared_ptr<CRaopContext> pRaopContext = m_pRaopContext.lock();
-
-					if (pRaopContext != NULL)
-						ShRecData(pRaopContext, nTimeStamp, packet->m_Data, packet->m_nLen, NUM_CHANNELS);
-				}
 				if (!g_bMute || !m_bLiveOutput)
 				{
 					int nPlaySamples = StuffBuffer((const short*)(BYTE*)packet->m_Data, (short*)((BYTE*)m_OutBuf), packet->m_nLen >> NUM_CHANNELS, m_bf_playback_rate);

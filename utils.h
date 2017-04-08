@@ -285,11 +285,6 @@ ULONGLONG ToDacpID(LPCSTR strID);
 #define IDI_SHIELD MAKEINTRESOURCE(32518)
 #endif
 
-
-#ifdef _RECORD_LOG
-#include "RecordLog.h"
-#endif
-
 #include <memory>
 class CRaopContext;
 

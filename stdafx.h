@@ -93,10 +93,6 @@ using namespace Gdiplus;
 
 #include "myMutex.h"
 
-#ifdef SPR_PLUGIN
-#include "..\ShairportRecorder\ShairportRecorder\MySpinLock.h"
-#endif
-
 #include "utils.h"
 #include "sp_bonjour.h"
 #include "http_parser.h"
@@ -112,55 +108,6 @@ using namespace Gdiplus;
 #else
   #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
-
-typedef BOOL (WINAPI * _ShRecInit)					(HMODULE hModule, IPlugInManager* pPlugInManager);
-typedef	BOOL (WINAPI * _ShRecProcessWindowMessage)	(	_In_ HWND hWnd,
-														_In_ UINT uMsg,
-														_In_ WPARAM wParam,
-														_In_ LPARAM lParam,
-														_Inout_ LRESULT& lResult);
-typedef void (WINAPI * _ShRecData)					(const shared_ptr<CRaopContext>& pContext, unsigned long long nTimeStamp, const unsigned char* pData, unsigned long nDataLen, unsigned long nNumChannels);
-typedef void (WINAPI * _ShRecNewRaopContext)		(const shared_ptr<CRaopContext>& pContext);
-
-extern _ShRecInit					ShRecInit;
-extern _ShRecProcessWindowMessage	ShRecProcessWindowMessage;
-extern _ShRecData					ShRecData;
-extern _ShRecNewRaopContext			ShRecNewRaopContext;
-
-class CShairportRecorder
-{
-public:
-	static BOOL ProcessWindowMessage(
-		_In_ HWND hWnd,
-		_In_ UINT uMsg,
-		_In_ WPARAM wParam,
-		_In_ LPARAM lParam,
-		_Inout_ LRESULT& lResult)
-	{
-		if (ShRecProcessWindowMessage != NULL)
-		{
-			return ShRecProcessWindowMessage(hWnd, uMsg, wParam, lParam, lResult);
-		}
-		return FALSE;
-	}
-	static bool IsLoaded()
-	{
-		return ShRecInit != NULL ? true : false;
-	}
-	static bool IsOkToClose(HWND hWnd)
-	{
-		if (ShRecProcessWindowMessage != NULL)
-		{
-			LRESULT lResult = TRUE;
-
-			ShRecProcessWindowMessage(hWnd, WM_COMMAND, IDCANCEL, 0, lResult);
-			
-			if (!lResult)
-				return false;
-		}
-		return true;
-	}
-};
 
 typedef struct ao_device ao_device;
 
@@ -193,7 +140,3 @@ protected:
 extern	CPlugInManager							g_PlugInManager;
 
 #include "resource.h"
-
-#ifdef SPR_PLUGIN
-#include "..\ShairportRecorder\ShairportRecorder\SPR_Defs.h"
-#endif

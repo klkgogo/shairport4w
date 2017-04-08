@@ -69,12 +69,6 @@ string			strPrivateKey	=	"MIIEpQIBAAKCAQEA59dE8qLieItsH1WgjrcFRKj6eUWqi+bGLOX1HL
 									"LAuE4Pu13aKiJnfft7hIjbK+5kyb3TysZvoyDnb3HOKvInK7vXbKuU4ISgxB2bB3HcYzQMGsz1qJ"
 									"2gG0N5hvJpzwwhbhXqFKA4zaaSrw622wDniAK5MlIE0tIAKKP4yxNGjoD2QYjhBGuhvkWKY=";
 
-// ShairportRecorder Routines
-_ShRecInit						ShRecInit					= NULL;
-_ShRecProcessWindowMessage		ShRecProcessWindowMessage	= NULL;
-_ShRecData						ShRecData					= NULL;
-_ShRecNewRaopContext			ShRecNewRaopContext			= NULL;
-
 static bool digest_ok(shared_ptr<CRaopContext>& pRaopContext)
 {
 	if (!pRaopContext->m_strNonce.empty())
@@ -169,13 +163,6 @@ protected:
 
 		GetLocalIP(sd, m_bV4, strLocalIP);
 		GetPeerIP(sd, m_bV4, strPeerIP);
-		
-#ifdef _RECORD_LOG
-		shared_ptr<CRecordLog> pRecItem = CRecordLog::NewItem("Accept.FromSender");
-			
-		pRecItem->m_rawData.Write(strPeerIP.c_str(), strPeerIP.length(), NULL);
-		CRecordLog::Store(pRecItem);
-#endif
 		Log("Accepted new client %s\n", strPeerIP.c_str());
 
 		shared_ptr<CRaopContext> pRaopContext = make_shared<CRaopContext>(m_bV4, strPeerIP.c_str(), strLocalIP.c_str());
@@ -184,9 +171,6 @@ protected:
 		{
 			pRaopContext->m_pDecoder = make_shared<CHairTunes>();
 			ATLASSERT(pRaopContext->m_pDecoder != NULL);			
-			
-			if (ShRecNewRaopContext != NULL)
-				ShRecNewRaopContext(pRaopContext);
 
 			c_mtxConnection.Lock();
 
@@ -258,12 +242,6 @@ protected:
 					return;
 				}
 			}
-#ifdef _RECORD_LOG
-			shared_ptr<CRecordLog> pRecItem = CRecordLog::NewItem("HttpReq.FromSender");
-			
-			pRecItem->m_rawData.Write(request.m_strBuf.c_str(), request.m_strBuf.length(), NULL);
-			CRecordLog::Store(pRecItem);
-#endif
 
 			Log("+++++++ Http Request +++++++\n%s------- Http Request -------\n", request.m_strBuf.c_str());
 
@@ -294,12 +272,6 @@ protected:
 					{
 						int		nProxyReceived		= pRaopContext->m_Proxy.recv(buf, 0x100000);
 						string	strProxyResponse	= string(buf, nProxyReceived);
-#ifdef _RECORD_LOG
-						pRecItem = CRecordLog::NewItem("HttpResp.FromReceiver");
-			
-						pRecItem->m_rawData.Write(strProxyResponse.c_str(), strProxyResponse.length(), NULL);
-						CRecordLog::Store(pRecItem);
-#endif
 						Log("+++++++ Proxy +++++++\n%s------- Proxy -------\n", strProxyResponse.c_str());
 					}
 				}
@@ -443,12 +415,6 @@ protected:
 					{
 						int		nProxyReceived		= pRaopContext->m_Proxy.recv(buf, 0x100000);
 						string	strProxyResponse	= string(buf, nProxyReceived);
-#ifdef _RECORD_LOG
-						pRecItem = CRecordLog::NewItem("HttpResp.FromReceiver");
-			
-						pRecItem->m_rawData.Write(strProxyResponse.c_str(), strProxyResponse.length(), NULL);
-						CRecordLog::Store(pRecItem);
-#endif
 						Log("+++++++ Proxy +++++++\n%s------- Proxy -------\n", strProxyResponse.c_str());
 					}
 				}
@@ -550,12 +516,6 @@ protected:
 						{
 							int		nProxyReceived		= pRaopContext->m_Proxy.recv(buf, 0x100000);
 							string	strProxyResponse	= string(buf, nProxyReceived);
-#ifdef _RECORD_LOG
-							pRecItem = CRecordLog::NewItem("HttpResp.FromReceiver");
-			
-							pRecItem->m_rawData.Write(strProxyResponse.c_str(), strProxyResponse.length(), NULL);
-							CRecordLog::Store(pRecItem);
-#endif
 							Log("+++++++ Proxy +++++++\n%s------- Proxy -------\n", strProxyResponse.c_str());
 								
 							string strTok;
@@ -772,12 +732,7 @@ protected:
 			strResponse += "\r\n";
 
 #ifndef _WITH_PROXY
-#ifdef _RECORD_LOG
-			pRecItem = CRecordLog::NewItem("HttpResp.FromShairport");
-			
-			pRecItem->m_rawData.Write(strResponse.c_str(), strResponse.length(), NULL);
-			CRecordLog::Store(pRecItem);
-#endif
+
 #endif
 			Log("++++++++ Me +++++++++\n%s-------- Me ---------\n", strResponse.c_str());
 
@@ -795,12 +750,6 @@ protected:
 
 		GetPeerIP(sd, m_bV4, strIP);
 
-#ifdef _RECORD_LOG
-		shared_ptr<CRecordLog> pRecItem = CRecordLog::NewItem("Disconnect.FromSender");
-			
-		pRecItem->m_rawData.Write(strIP.c_str(), strIP.length(), NULL);
-		CRecordLog::Store(pRecItem);
-#endif
 		Log("Client %s disconnected\n", strIP.c_str());
 		c_mtxConnection.Lock();
 
@@ -1089,9 +1038,6 @@ int Run(LPTSTR lpstrCmdLine = NULL)
 
 		stop_serving();
 
-#ifdef _RECORD_LOG
-		CRecordLog::Save();
-#endif
 
 		return nRet;
 	}
@@ -1158,14 +1104,6 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 		
 	ATLVERIFY(GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL) == Gdiplus::Ok);
 
-#ifdef SPR_PLUGIN
-	bool	bExit	= false;
-	HMODULE hRec	= SPR_Load(lpstrCmdLine, bExit);
-
-	if (bExit)
-		goto exit;
-#endif // SPR_PLUGIN
-
 	if (mtxAppSessionInstance.Create(NULL, FALSE, WTL::CString(_T("__")) + WTL::CString(A2CT(strConfigName.c_str())) + WTL::CString(_T("SessionInstanceIsRunning"))))
 	{
 		while (WaitForSingleObject(mtxAppSessionInstance, 0) != WAIT_OBJECT_0)
@@ -1215,16 +1153,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 	{
 		pSetThreadExecutionState = (_SetThreadExecutionState) GetProcAddress(hKernel32, "SetThreadExecutionState");
 	}
-#ifdef SPR_PLUGIN
-	if (hRec != NULL)
-	{
-		SPR_Init(hRec, CAboutDlg::m_strRecorderVersion);
-	}
-#endif
 	nRet = Run(lpstrCmdLine);
-
-	if (ShRecInit != NULL)
-		ShRecInit(NULL, NULL);
 
 	RSA_free(pRSA);
 
@@ -1242,13 +1171,6 @@ exit:
 	_Module.Term();
 	DeInitBonjour();
 
-#ifdef SPR_PLUGIN
-	if (hRec != NULL)
-	{
-		FreeLibrary(hRec);
-		hRec = NULL;
-	}
-#endif
 	::CoUninitialize();
 
 	return nRet;
