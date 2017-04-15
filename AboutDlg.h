@@ -29,6 +29,13 @@ class CAboutDlg : public CDialogImpl<CAboutDlg>, public CWinDataExchange<CAboutD
 public:
 	enum { IDD = IDD_ABOUTBOX };
 
+   CAboutDlg(CAppModule& module)
+      : _Module(module)
+   {
+
+   }
+   CAppModule& _Module;
+
 protected:
 	BEGIN_DDX_MAP(CAboutDlg)
 		DDX_TEXT(IDC_STATIC_VERSION, m_strVersion)

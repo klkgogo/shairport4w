@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Bonjour">
       <UniqueIdentifier>{3387f3d8-2f8a-48e5-b655-4dc9f6133d61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{b9218070-03bb-43ef-8240-fd31997e4d93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp">
@@ -73,6 +76,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HairTunes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteAudioOutputProtocolServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShairportContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AirplayRsaKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +168,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyAppMessages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteAudioOutputProtocolServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketConnectionMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShairportContainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteAudioOutputProtocolV6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoteAudioOutputProtocolServerV4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HardwareAddressRetriever.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AirplayRsaKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -27,7 +27,8 @@
 class CPushPinButton : public CWindowImpl<CButton>
 {
 public:
-	CPushPinButton();
+	CPushPinButton(
+      CAppModule& module);
    
 	void SetPinned(BOOL bPinned);
 	BOOL IsPinned() { return m_bPinned; };
@@ -46,6 +47,7 @@ protected:
 	void SizeToContent();
 	void LoadBitmaps();
    
+   CAppModule& _Module;
 	BOOL    m_bPinned;
 	Bitmap*	m_pPinnedBitmap;
 	Bitmap*	m_pUnPinnedBitmap;

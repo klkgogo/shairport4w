@@ -129,7 +129,7 @@ static void DNSSD_API MyRegisterServiceReply
     void                                *context
     )
 {
-	Log("MyRegisterServiceReply: Name: %s, RegType: %s, Domain: %s, ErrorCode: 0x%lx"
+	Log("MyRegisterServiceReply: Name: %s, RegType: %s, Domain: %s, ErrorCode: 0x%lx\n"
 		, name		!= NULL ? name		: "<null>"
 		, regtype	!= NULL ? regtype	: "<null>"
 		, domain	!= NULL ? domain	: "<null>"

@@ -86,8 +86,27 @@ void GetFullDeviceName(wstring& strDevname)
 		strDevname = strBestMatch;
 }
 
-CExtOptsDlg::CExtOptsDlg(BOOL bLogToFile, BOOL bNoMetaInfo, BOOL bNoMediaControls, WTL::CString strSoundRedirection, bool bSoundRedirection, bool bRedirKeepAlive, bool bRedirStartEarly, int nPos, int nSoundcardId /*= 0*/) :
-	m_bLogToFile(bLogToFile), m_bNoMetaInfo(bNoMetaInfo), m_bNoMediaControls(bNoMediaControls), m_nPos(nPos), m_strSoundRedirection(strSoundRedirection), m_bSoundRedirection(bSoundRedirection), m_bRedirKeepAlive(bRedirKeepAlive), m_bRedirStartEarly(bRedirStartEarly), m_nSoundcardId(nSoundcardId) 
+CExtOptsDlg::CExtOptsDlg(
+   CAppModule& module,
+   BOOL bLogToFile, 
+   BOOL bNoMetaInfo, 
+   BOOL bNoMediaControls, 
+   WTL::CString strSoundRedirection, 
+   bool bSoundRedirection, 
+   bool bRedirKeepAlive, 
+   bool bRedirStartEarly, 
+   int nPos, 
+   int nSoundcardId /*= 0*/) 
+   : _Module(module)
+   , m_bLogToFile(bLogToFile)
+   , m_bNoMetaInfo(bNoMetaInfo)
+   , m_bNoMediaControls(bNoMediaControls)
+   , m_nPos(nPos)
+   , m_strSoundRedirection(strSoundRedirection)
+   , m_bSoundRedirection(bSoundRedirection)
+   , m_bRedirKeepAlive(bRedirKeepAlive)
+   , m_bRedirStartEarly(bRedirStartEarly)
+   , m_nSoundcardId(nSoundcardId) 
 {
 }
 

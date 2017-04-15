@@ -2,7 +2,9 @@
 #include "PushPinButton.h"
 #include "resource.h"
 
-CPushPinButton::CPushPinButton()
+CPushPinButton::CPushPinButton(
+   CAppModule& module)
+   : _Module(module)
 {
 	m_bPinned			= FALSE;
 	m_MaxRect			= CRect(0, 0, 0, 0);

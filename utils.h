@@ -133,8 +133,8 @@ struct ci_char_traits : public char_traits<char>
 // case ignore compare string-class
 typedef basic_string<char, ci_char_traits, allocator<char> > ci_string;
 
-extern	CMutex		mtxAppSessionInstance;
-extern	CMutex		mtxAppGlobalInstance;
+//extern	CMutex		mtxAppSessionInstance;
+//extern	CMutex		mtxAppGlobalInstance;
 extern	string		strConfigName;
 extern	bool		bPrivateConfig;
 extern	bool		bIsWinXP;

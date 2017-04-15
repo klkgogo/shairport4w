@@ -29,7 +29,17 @@
 class CExtOptsDlg :	public CDialogImpl<CExtOptsDlg>, public CWinDataExchange<CExtOptsDlg>
 {
 public:
-	CExtOptsDlg(BOOL bLogToFile, BOOL bNoMetaInfo, BOOL bNoMediaControls, WTL::CString strSoundRedirection, bool bSoundRedirection, bool bRedirKeepAlive, bool bRedirStartEarly, int nPos, int nSoundcardId = 0);
+	CExtOptsDlg(
+      CAppModule& module,
+      BOOL bLogToFile, 
+      BOOL bNoMetaInfo, 
+      BOOL bNoMediaControls, 
+      WTL::CString strSoundRedirection, 
+      bool bSoundRedirection, 
+      bool bRedirKeepAlive, 
+      bool bRedirStartEarly, 
+      int nPos, 
+      int nSoundcardId = 0);
 	~CExtOptsDlg(void);
 
 	enum { IDD = IDD_EXT_OPTS };
@@ -76,6 +86,7 @@ protected:
 	void OnClickedRedirectTo(UINT, int, HWND);
 
 private:
+   CAppModule& _Module;
 	BOOL								m_bLogToFile;
 	int									m_nSoundcardId;
 	int									m_nPos;

@@ -31,7 +31,7 @@
 
 static const	WTL::CString	c_strEmptyTimeInfo = _T("--:--");
 
-extern			BYTE			hw_addr[6];
+//extern			BYTE			hw_addr[6];
 volatile		LONG			g_bMute = 0;
 
 #define STR_EMPTY_TIME_INFO c_strEmptyTimeInfo
@@ -378,7 +378,7 @@ bool CMainDlg::WriteConfig()
 	{
 		string strHwAddr;
 
-		EncodeBase64(hw_addr, 6, strHwAddr, false);
+		EncodeBase64(m_hardwareAddressRetriever.hardwareAddress(), 6, strHwAddr, false);
 		ATLASSERT(!strHwAddr.empty());
 		PutValueToRegistry(HKEY_LOCAL_MACHINE, "HwAddr", strHwAddr.c_str());
 	}
@@ -693,14 +693,14 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 	m_ctlInfoBmp.MoveWindow(rect, FALSE);
 	 
-	m_ctlPlay.Set(IDB_PLAY, IDB_PLAY_PRESSED, IDB_PLAY_DISABLED);
-	m_ctlPause.Set(IDB_PAUSE, IDB_PAUSE_PRESSED, IDB_PAUSE_DISABLED);
-	m_ctlFFw.Set(IDB_FFW, IDB_FFW_PRESSED, IDB_FFW_DISABLED);
-	m_ctlRew.Set(IDB_REW, IDB_REW_PRESSED, IDB_REW_DISABLED);
-	m_ctlSkipNext.Set(IDB_SKIP_NEXT, IDB_SKIP_NEXT_PRESSED, IDB_SKIP_NEXT_DISABLED);
-	m_ctlSkipPrev.Set(IDB_SKIP_PREV, IDB_SKIP_PREV_PRESSED, IDB_SKIP_PREV_DISABLED);
-	m_ctlMute.Set(IDB_MUTE, IDB_MUTE_PRESSED, IDB_MUTE);
-	m_ctlMute.Add(IDB_MUTE_PRESSED);
+	m_ctlPlay.Set(IDB_PLAY, IDB_PLAY_PRESSED, IDB_PLAY_DISABLED, _Module.GetResourceInstance());
+	m_ctlPause.Set(IDB_PAUSE, IDB_PAUSE_PRESSED, IDB_PAUSE_DISABLED, _Module.GetResourceInstance());
+	m_ctlFFw.Set(IDB_FFW, IDB_FFW_PRESSED, IDB_FFW_DISABLED, _Module.GetResourceInstance());
+	m_ctlRew.Set(IDB_REW, IDB_REW_PRESSED, IDB_REW_DISABLED, _Module.GetResourceInstance());
+	m_ctlSkipNext.Set(IDB_SKIP_NEXT, IDB_SKIP_NEXT_PRESSED, IDB_SKIP_NEXT_DISABLED, _Module.GetResourceInstance());
+	m_ctlSkipPrev.Set(IDB_SKIP_PREV, IDB_SKIP_PREV_PRESSED, IDB_SKIP_PREV_DISABLED, _Module.GetResourceInstance());
+	m_ctlMute.Set(IDB_MUTE, IDB_MUTE_PRESSED, IDB_MUTE, _Module.GetResourceInstance());
+	m_ctlMute.Add(IDB_MUTE_PRESSED, _Module.GetResourceInstance());
 
 	DoDataExchange(FALSE);
 
@@ -784,7 +784,7 @@ LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
 	WCHAR	FileName[MAX_PATH];
-	CAboutDlg dlg;
+	CAboutDlg dlg(_Module);
 
 	if (GetModuleFileNameW(NULL, FileName, sizeof(FileName)/sizeof(WCHAR)) > 0)
 	{
@@ -823,7 +823,7 @@ void CMainDlg::OnClickedSetApName(UINT, int, HWND)
 		Elevate(true);
 		return;
 	}
-	ChangeNameDlg dialog(m_strApName, m_strPassword);
+	ChangeNameDlg dialog(m_strApName, m_strPassword, _Module);
 
 	dialog.m_bTray				= m_bTray;
 	dialog.m_bStartMinimized	= m_bStartMinimized;
@@ -912,7 +912,17 @@ void CMainDlg::OnClickedExtendedOptions(UINT, int, HWND)
 		Elevate(false, true);
 		return;
 	}
-	CExtOptsDlg dlg(m_bLogToFile, m_bNoMetaInfo, m_bNoMediaControl, m_strSoundRedirection, m_bSoundRedirection, m_bRedirKeepAlive, m_bRedirStartEarly, CHairTunes::GetStartFill(), m_strSoundcardId.empty() ? 0 : (UINT)atoi(m_strSoundcardId.c_str()));
+	CExtOptsDlg dlg(
+      _Module,
+      m_bLogToFile, 
+      m_bNoMetaInfo, 
+      m_bNoMediaControl, 
+      m_strSoundRedirection, 
+      m_bSoundRedirection, 
+      m_bRedirKeepAlive, 
+      m_bRedirStartEarly, 
+      CHairTunes::GetStartFill(), 
+      m_strSoundcardId.empty() ? 0 : (UINT)atoi(m_strSoundcardId.c_str()));
 
 	if (dlg.DoModal(m_hWnd) == IDOK)
 	{

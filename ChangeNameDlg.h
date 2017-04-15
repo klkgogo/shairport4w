@@ -30,7 +30,10 @@ class ChangeNameDlg : public CDialogImpl<ChangeNameDlg>, public CWinDataExchange
 public:
 	enum { IDD = IDD_CHANGEUSER };
 
-	ChangeNameDlg(WTL::CString airportName, WTL::CString password);
+	ChangeNameDlg(
+      WTL::CString airportName, 
+      WTL::CString password,
+      CAppModule& module);
 
 	// Accessors
 	WTL::CString getAirportName();
@@ -62,6 +65,7 @@ private:
 	WTL::CString		m_Name;
 	WTL::CString		m_Password;
 	WTL::CString		m_VerifyPassword;
+   CAppModule& _Module;
 public:
 	BOOL				m_bStartMinimized;
 	BOOL				m_bAutostart;

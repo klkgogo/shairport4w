@@ -243,6 +243,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
+    <ClCompile Include="AirplayRsaKey.cpp" />
     <ClCompile Include="alac.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug RecLog|Win32'">true</ExcludedFromBuild>
@@ -266,7 +267,9 @@
     <ClCompile Include="MyBitmapButton.cpp" />
     <ClCompile Include="Networking.cpp" />
     <ClCompile Include="PushPinButton.cpp" />
+    <ClCompile Include="RemoteAudioOutputProtocolServer.cpp" />
     <ClCompile Include="Shairport4w.cpp" />
+    <ClCompile Include="ShairportContainer.cpp" />
     <ClCompile Include="sp_bonjour.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -278,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AboutDlg.h" />
+    <ClInclude Include="AirplayRsaKey.h" />
     <ClInclude Include="alac.h" />
     <ClInclude Include="ao\ao.h" />
     <ClInclude Include="ao\ao_private.h" />
@@ -288,6 +292,7 @@
     <ClInclude Include="DmapParser.h" />
     <ClInclude Include="ExtOptsDlg.h" />
     <ClInclude Include="HairTunes.h" />
+    <ClInclude Include="HardwareAddressRetriever.h" />
     <ClInclude Include="http_parser.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="MyAppMessages.h" />
@@ -298,7 +303,12 @@
     <ClInclude Include="PushPinButton.h" />
     <ClInclude Include="RaopContext.h" />
     <ClInclude Include="RaopDefs.h" />
+    <ClInclude Include="RemoteAudioOutputProtocolServer.h" />
+    <ClInclude Include="RemoteAudioOutputProtocolServerV4.h" />
+    <ClInclude Include="RemoteAudioOutputProtocolV6.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ShairportContainer.h" />
+    <ClInclude Include="SocketConnectionMap.h" />
     <ClInclude Include="sp_bonjour.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stdint_win.h" />

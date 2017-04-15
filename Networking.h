@@ -53,7 +53,9 @@ public:
 	BOOL IsBlockMode();
 
 	BOOL Connect(const SOCKADDR_IN* pSockAddr, int nSizeofSockAddr);
-	BOOL Connect(const char* strHost, USHORT nPort_NetOrder, int* pPreferFamily = NULL, SOCKADDR_IN* pSockAddr = NULL, PULONG pSockAddrLen = NULL, int type = SOCK_STREAM);
+	BOOL Connect(const char* strHost, USHORT nPort_NetOrder, 
+      int* pPreferFamily = NULL, SOCKADDR_IN* pSockAddr = NULL, 
+      PULONG pSockAddrLen = NULL, int type = SOCK_STREAM);
 	BOOL WaitForIncomingData(DWORD dwTimeout);
 
 	void SetLinger(BOOL b, DWORD dwLinger = 0);

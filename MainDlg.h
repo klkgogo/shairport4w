@@ -30,6 +30,7 @@
 #include "DacpService.h"
 
 #include "MyAppMessages.h"
+#include "HardwareAddressRetriever.h"
 
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler, public CWinDataExchange<CMainDlg>
@@ -64,7 +65,22 @@ public:
 		skip_prev
 	} typeMMState;
 
-	CMainDlg() : m_ctlInfoBmp(this, 1), m_ctlTimeBarBmp(this, 2)
+	CMainDlg(
+      CAppModule& module,
+      IHardwareAddressRetriever& hardwareAddressRetriever)
+      : _Module(module)
+      , m_hardwareAddressRetriever(hardwareAddressRetriever)
+      , m_ctlInfoBmp(this, 1)
+      , m_ctlTimeBarBmp(this, 2)
+      , m_ctlPushPin(_Module)
+      , m_ctlPlay(_Module)
+      , m_ctlPause(_Module)
+      , m_ctlFFw(_Module)
+      , m_ctlRew(_Module)
+      , m_ctlSkipNext(_Module)
+      , m_ctlSkipPrev(_Module)
+      , m_ctlMute(_Module)
+
 	{
 		WSADATA wsaData;
 		WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -255,6 +271,8 @@ protected:
 	bool StartRedirection();
 
 public:
+   CAppModule& _Module;
+   IHardwareAddressRetriever& m_hardwareAddressRetriever;
 	CButton															m_ctlUpdate;
 	CButton															m_ctlSet;
 	CEdit															m_ctlPassword;
@@ -276,12 +294,12 @@ public:
 #endif
 	CPushPinButton													m_ctlPushPin;
 
-	CMyBitmapButton													m_ctlPlay;
-	CMyBitmapButton													m_ctlPause;
-	CMyBitmapButton													m_ctlFFw;
-	CMyBitmapButton													m_ctlRew;
-	CMyBitmapButton													m_ctlSkipNext;
-	CMyBitmapButton													m_ctlSkipPrev;
+	CMyBitmapButton												m_ctlPlay;
+	CMyBitmapButton												m_ctlPause;
+	CMyBitmapButton												m_ctlFFw;
+	CMyBitmapButton												m_ctlRew;
+	CMyBitmapButton												m_ctlSkipNext;
+	CMyBitmapButton												m_ctlSkipPrev;
 	CMyBitmapButtonEx												m_ctlMute;
 
 	void ReadConfig();

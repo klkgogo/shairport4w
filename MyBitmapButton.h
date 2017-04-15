@@ -29,8 +29,12 @@ class CMyBitmapButton : public CBitmapButtonImpl<CMyBitmapButton>
 public:
 	DECLARE_WND_SUPERCLASS(_T("WTL_BitmapButton"), GetWndClassName())
 
-	CMyBitmapButton(DWORD dwExtendedStyle = BMPBTN_AUTOSIZE, HIMAGELIST hImageList = NULL) : 
-		CBitmapButtonImpl<CMyBitmapButton>(dwExtendedStyle, hImageList)
+	CMyBitmapButton(
+      CAppModule& module,
+      DWORD dwExtendedStyle = BMPBTN_AUTOSIZE, 
+      HIMAGELIST hImageList = NULL) 
+      : CBitmapButtonImpl<CMyBitmapButton>(dwExtendedStyle, hImageList)
+      , _Module(module)
 	{
 		m_bmNormal		= NULL;
 		m_bmDisabled	= NULL;
@@ -64,8 +68,8 @@ public:
 		}
 		return 1;
 	}
-	void Set(int nNormalID, int PressedID, int nDisabledID, HINSTANCE hInstance = _Module.GetResourceInstance());
-	void Set(CSize szDest, int nNormalID, int PressedID, int nDisabledID, HINSTANCE hInstance = _Module.GetResourceInstance());
+	void Set(int nNormalID, int PressedID, int nDisabledID, HINSTANCE hInstance/* = _Module.GetResourceInstance()*/);
+	void Set(CSize szDest, int nNormalID, int PressedID, int nDisabledID, HINSTANCE hInstance /*= _Module.GetResourceInstance()*/);
 
 	virtual void OnDestroy()
 	{
@@ -87,6 +91,7 @@ public:
 		SetMsgHandled(FALSE);
 	}
 public:
+   CAppModule& _Module;
 	Bitmap*								m_bmNormal;
 	Bitmap*								m_bmDisabled;
 	Bitmap*								m_bmPressed;
@@ -98,12 +103,13 @@ public:
 class CMyBitmapButtonEx : public CMyBitmapButton
 {
 public:
-	CMyBitmapButtonEx()
+	CMyBitmapButtonEx(CAppModule& module)
+      : CMyBitmapButton(module)
 	{
 		m_bmSelected	= NULL;
 		m_bSelected		= false;
 	}
-	void Add(int nSelID, HINSTANCE hInstance = _Module.GetResourceInstance())
+	void Add(int nSelID, HINSTANCE hInstance /*= _Module.GetResourceInstance()*/)
 	{
 		m_bmSelected	= BitmapFromResource(hInstance, MAKEINTRESOURCE(nSelID));
 		

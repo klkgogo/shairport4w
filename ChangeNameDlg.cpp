@@ -27,8 +27,14 @@
 
 #include "changenamedlg.h"
 
-ChangeNameDlg::ChangeNameDlg(WTL::CString airportName, WTL::CString password) :
-	m_Name(airportName), m_Password(password), m_VerifyPassword(password)
+ChangeNameDlg::ChangeNameDlg(
+   WTL::CString airportName, 
+   WTL::CString password,
+   CAppModule& module) 
+   : m_Name(airportName)
+   , m_Password(password) 
+   , m_VerifyPassword(password)
+   , _Module(module)
 {
 }
 

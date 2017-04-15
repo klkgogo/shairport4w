@@ -38,7 +38,6 @@
 #include <atlbase.h>
 #include <atlapp.h>
 
-extern	CAppModule				_Module;
 extern	volatile LONG			g_bMute;
 
 #define	MUTE_FROM_TOGGLE_BUTTON		0x00000001
@@ -121,7 +120,11 @@ public:
 	}
 public:
 	virtual bool wave_open(int nSamplingRate, HANDLE hEventPlay);
-	virtual int wave_play(shared_ptr<CRaopContext> pRaopContext, const unsigned char* output_samples, unsigned int num_bytes, double bf_playback_rate);
+	virtual int wave_play(
+      shared_ptr<CRaopContext> pRaopContext, 
+      const unsigned char* output_samples, 
+      unsigned int num_bytes, 
+      double bf_playback_rate);
 	virtual void wave_close();
 	virtual PCWSTR GetApName()
 	{
@@ -137,6 +140,6 @@ protected:
 	ULONG				m_nBuf;
 };
 
-extern	CPlugInManager							g_PlugInManager;
+//extern CPlugInManager g_PlugInManager;
 
 #include "resource.h"
